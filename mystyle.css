@@ -6,20 +6,14 @@ body {
 	
 .header {
 	padding:20px;
-	text-align:center;
-	margin:auto;
-}
-
-.navigation {
-	text-align:center;
-	padding:0px 0px 20px 0px;
+	margin:25px 25px 25px 100px;
 }
 
 .contact_box {
 	height:100px;
 	width:500px;
 	padding:20px 20px 20px 20px;
-	margin:auto;
+	margin:25px 25px 25px 25px;
 	border:1px solid black;
 }
 
@@ -27,11 +21,27 @@ body {
 	height:250px;
 	width:500px;
 	padding:20px 20px 20px 20px;
-	margin:auto;
+	margin:25px 25px 25px 25px;
 	outline:1px solid black;
 }
 
-.panel_title {
+.sewing_box {
+	height:250px;
+	width:500px;
+	padding:20px 20px 20px 20px;
+	margin:25px 25px 25px 25px;
+	outline:1px solid black;
+}
+
+.magic_box {
+	height:250px;
+	width:500px;
+	padding:20px 20px 20px 20px;
+	margin:25px 25px 25px 25px;
+	outline:1px solid black;
+}
+
+.box_title {
 	margin:0px 0px 20px 0px;
 	outline:1px solid white;
 }
@@ -69,7 +79,7 @@ body {
 	display:inline-block;
 }
 
-.panels {
+.slides {
 	border:0px solid black;
 }
 
@@ -95,7 +105,7 @@ body {
 	outline:0px solid black;
 }
 
-.panel {
+.slide {
   display:none;
 }
 
@@ -103,9 +113,9 @@ body {
   display:none;
 }
 
-#one:checked ~ .panels #panel_one,
-#two:checked ~ .panels #panel_two,
-#three:checked ~ .panels #panel_three {
+#one:checked ~ .slides #slide_one,
+#two:checked ~ .slides #slide_two,
+#three:checked ~ .slides #slide_three {
   display:block
 }
 
