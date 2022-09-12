@@ -1,6 +1,15 @@
-box {
- color: red;
- display: block;
- margin: auto;
- border: 2px black;
+.x {
+	color: red;
+	margin: auto;
+	width: 5%;
+	text-align: center;
+	border: 1px solid black;
+}
+
+.box {
+	display: block;
+	border: 1px solid black;
+	margin: auto;
+	margin-top: 25%;
+	padding: 10px;
 }
