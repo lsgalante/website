@@ -1,5 +1,6 @@
 box {
  color: red;
+ display: block;
  margin: auto;
  border: 2px black;
 }
