@@ -2,19 +2,16 @@
 	--width1: 11%;
 	--height1: 65%;
 	--height2: 63%;
-	--top1: 3%;
+	--top1: 1%;
 	--top2: 5%;
 	--bottom1: 3%;
 	--side1: 20%;
 }
 .title {
-	position: absolute;
-	margin-top: 0%;
-	font-size: 1.8vw;
-	margin-left: var(--side1);
-	z-index: 3;
+	font-size: 1.7vw;
+	margin-top: .5vw;
+	margin-left: .5vw;
 }
-
 .myimg {
 	object-fit: contain;
 	width: 100%;
@@ -33,7 +30,7 @@
 	position: absolute;
 	top: 0%;
 	left: var(--side1);
-	height: 3vw;
+	height: 3.3vw;
 	width: var(--width1);
 	background-color: white;
 	z-index: 2;
