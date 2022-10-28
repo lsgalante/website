@@ -1,22 +1,29 @@
 :root {
 	--width1: 11%;
-	--height1: 70%;
+	--height1: 65%;
 }
 .title {
 	display: block;
 	margin-left: 5%;
 }
-.box {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-	border: 1px solid black ;
-	margin-top: -1.5%;
-	padding: 10px;
+
+.myimg {
+	object-fit: contain;
+	width: 100%;
+	height: 100%;
+}
+.boxx {
+	position: absolute;
+	top: 1%;
+	left: 39.5%;
+	height: 19%;
+	width: 20%;
+	padding: 1%;
+	border: 1px solid black;
 }
 .left {
 	position: absolute;
-	top: 0.2%;
+	top: 1%;
 	left: 20%;
 	height: var(--height1);
 	width: var(--width1);
@@ -24,7 +31,7 @@
 }
 .right {
 	position: absolute;
-	top:  0.2%;
+	top:  1%;
 	right: 20%;
 	height: var(--height1);
 	width: var(--width1);
@@ -37,4 +44,22 @@
 	height: 45%;
 	width: 8%;
 	background-color: black;
+}
+.circle1 {
+	position: absolute;
+	top: 70%;
+	left: 20%;
+	width: 10%;
+	border-radius: 50%;
+	border: 1px solid black;
+	padding-bottom: 10%;
+}
+.circle2 {
+	position: absolute;
+	top: 70%;
+	right: 20%;
+	width: 10%;
+	border-radius: 50%;
+	border: 1px solid black;
+	padding-bottom: 10%;
 }
