@@ -1,0 +1,119 @@
+
+
+body {
+	background:white;
+}
+	
+.header {
+	padding:20px;
+	margin:25px 25px 25px 100px;
+}
+
+.contact_box {
+	height:100px;
+	width:500px;
+	padding:20px 20px 20px 20px;
+	margin:25px 25px 25px 25px;
+	border:1px solid black;
+}
+
+.chocolate_box {
+	height:250px;
+	width:500px;
+	padding:20px 20px 20px 20px;
+	margin:25px 25px 25px 25px;
+	outline:1px solid black;
+}
+
+.sewing_box {
+	height:250px;
+	width:500px;
+	padding:20px 20px 20px 20px;
+	margin: 25px 25px 25px 25px;
+	outline:1px solid black;
+}
+
+.box_title {
+	margin:0px 0px 20px 0px;
+	outline:1px solid white;
+}
+
+.tab_container {
+	margin:0px 0px 20px 0px;
+	outline:0px solid black;
+}
+
+.tab {
+	display:inline-block;
+	cursor:pointer;
+	padding:2px 8px 2px 8px;
+	margin:0px 2px 0px 0px;
+	outline:1px solid black;
+}
+
+.here:link, a.here:visited {
+	background-color:black;
+	color:white;
+	padding:3px 35px;
+	text-align:center;
+	border:1px solid black;
+	text-decoration:none;
+	display:inline-block;
+}
+
+.there:link {
+	background-color:white;
+	color:black;
+	padding:3px 35px;
+	text-align:center;
+	border:1px solid black;
+	text-decoration:none;
+	display:inline-block;
+}
+
+.slides {
+	border:0px solid black;
+}
+
+.image {
+	display:inline-block;
+	margin:0px 10px 0px 0px;
+	outline:0px solid black;
+}
+
+.description {
+	display:inline-block;
+	width:230px;
+	vertical-align:top;
+	text-align:justify;
+	margin:0px 40px 0px 0px;
+	outline:0px solid black;
+}
+
+.price {
+	display:inline-block;
+	vertical-align:top;
+	margin:0px 0px 0px 0px;
+	outline:0px solid black;
+}
+
+.slide {
+  display:none;
+}
+
+.radio {
+  display:none;
+}
+
+#one:checked ~ .slides #slide_one,
+#two:checked ~ .slides #slide_two,
+#three:checked ~ .slides #slide_three {
+  display:block
+}
+
+#one:checked ~ .tab_container #tab_one,
+#two:checked ~ .tab_container #tab_two,
+#three:checked ~ .tab_container #tab_three {
+  background:black;
+  color:white;
+}

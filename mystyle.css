@@ -41,6 +41,14 @@ body {
 	outline:1px solid black;
 }
 
+.design_box {
+	height:250px;
+	width:500px;
+	padding:20px 20px 20px 20px;
+	margin:25px 25px 25px 25px;
+	outline:1px solid black;
+}
+
 .box_title {
 	margin:0px 0px 20px 0px;
 	outline:1px solid white;
@@ -79,7 +87,7 @@ body {
 	display:inline-block;
 }
 
-.slides {
+.slide_container {
 	border:0px solid black;
 }
 
@@ -113,15 +121,17 @@ body {
   display:none;
 }
 
-#one:checked ~ .slides #slide_one,
-#two:checked ~ .slides #slide_two,
-#three:checked ~ .slides #slide_three {
+#chocolate_radio_one:checked ~ .slide_container #chocolate_slide_one,
+#chocolate_radio_two:checked ~ .slide_container #chocolate_slide_two,
+#sewing_radio_one:checked ~ .slide_container #sewing_slide_one,
+#sewing_radio_two:checked ~ .slide_container #sewing_slide_two {
   display:block
 }
 
-#one:checked ~ .tab_container #tab_one,
-#two:checked ~ .tab_container #tab_two,
-#three:checked ~ .tab_container #tab_three {
+#chocolate_radio_one:checked ~ .tab_container #chocolate_tab_one,
+#chocolate_radio_two:checked ~ .tab_container #chocolate_tab_two,
+#sewing_radio_one:checked ~ .tab_container #sewing_tab_one,
+#sewing_radio_two:checked ~ .tab_container #sewing_tab_two {
   background:black;
   color:white;
 }
