@@ -8,6 +8,10 @@
 	--bottom1: 13%;
 	--side1: 20%;
 }
+.gradient {
+	height: 200px;
+	background-image: linear-gradient(aquamarine, aqua)
+}
 .title {
 	font-size: 1.7vw;
 	margin-top: .5vw;
