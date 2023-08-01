@@ -3,33 +3,32 @@
 	{
 		"tab_0":
 		{
-			"title": "Morphogen",
+			"title": "Morphogen"
 		},
 
 		"tab_1":
 		{
-			"title": "Moldtek",
+			"title": "Moldtek"
 		},
 
 		"tab_2":
 		{
-			"title": "Drawing",
+			"title": "Drawing"
 		},
 
 		"tab_3":
 		{
-			"title": "Spoon",
+			"title": "Spoon"
 		},
 
 		"tab_4":
 		{
-			"title": "tab_4_title",
+			"title": "tab_4_title"
 		},
 
 		"tab_5":
 		{
-			"title": "tab_5_title",
+			"title": "tab_5_title"
 		},
-
 	}
 }
