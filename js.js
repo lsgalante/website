@@ -1,4 +1,4 @@
-import data from "./info.json" assert {type: "json"};
+// import data from "./info.json" assert {type: "json"};
 
 // import_json();
 
