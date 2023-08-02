@@ -1,3 +1,19 @@
+function loadPage() {
+	populate();
+}
+
+function populate() {
+	const body = document.getElementById("body");
+	
+	body.style.backgroundColor = "#c8c7db";
+
+	let box = make_box();
+	let tabs = make_tabs(box);
+
+	document.body.append(box);
+	tab_click(0);
+}
+
 async function import_json() {
 	const url = "https://lucas.co/info.json";
 	const promise = await fetch(url);
@@ -5,66 +21,53 @@ async function import_json() {
 	return data;
 }
 
-import_json().then(
-	function(val) {console.log(val["tabs"])}
-);
-
 const n_tabs = 5;
 
 let active_tab = 0;
 
-function loadPage() {
-	populate();
-}
-
-function main_text(idx) {
-	
-	const main_text = {
-		tab0: "me one",
-		tab1: "me two",
-		tab2: "me three",
-		tab3: "me four",
-		tab4: "me five",
-		tab5: "me six" 
-	}
-
-	return main_text[idx];
-}
-
-function populate() {
-	const body = document.getElementById("body");
-	
-	body.style.backgroundColor = "#c8c7db";
-	const info = tab_idx(n_tabs);
-
-	let box = make_box();
-	let tabs = make_tabs(info, box)
-
-	document.body.append(box);
-	document.body.append(tabs);
-}
-
 function make_box() {
-
 	let box = document.createElement("div");
 
-	box.id = "box";
-	
 	box = stylize_box(box);
+	box.id = "box";
 
 	let text_box = document.createElement("div");
-	
-	let inner_text = main_text("tab0");
-	
+	text_box.style.margin = "25px";
 	text_box.id = "text_box";
 
-	text_box.style.margin = "25px";
-
-	text_box.innerText = inner_text;
+	import_json().then(
+		function(val) { text_box.innerText = val["tabs"]["tab_0"]["body"] }
+	);
 
 	box.append(text_box);
 
 	return box;
+}
+
+function make_tabs(box) {
+	const info = tab_info(n_tabs);
+
+	for(let i = 0; i < info["idcs"].length; i++) {
+
+		let idx = info["idcs"][i];
+		let ct = info["cts"][idx];
+		let id = info["ids"][i];
+
+		let tab = document.createElement("div");
+		tab = stylize_tab(box, tab, ct, idx, id);
+
+		tab.id = "tab_" + String(i);
+		
+		tab.onmouseenter = function() {tab_enter(tab.id)};
+		tab.onmouseleave = function() {tab_leave(tab.id)};
+		tab.onclick = function() {tab_click(i)};
+		
+		import_json().then(
+			function(val) { tab.innerText = val["tabs"][tab.id]["title"] }
+		);
+		
+		body.appendChild(tab);
+	}
 }
 
 function stylize_box(box) {
@@ -89,37 +92,6 @@ function stylize_box(box) {
 	// box.style.borderWidth = "1px";
 
 	return box;
-}
-
-function make_tabs(info, box) {
-
-	let cts = info["cts"];
-	let ids = info["ids"];
-	let idcs = info["idcs"];
-
-	for(let i = 0; i < idcs.length; i++) {
-
-		let idx = idcs[i];
-		let ct = cts[idx];
-		let id = ids[i];
-
-		let tab = document.createElement("div");
-
-		tab = stylize_tab(box, tab, ct, idx, id);
-
-		let tab_id = "tab_" + String(i);
-		tab.id = tab_id;
-		
-		tab.onmouseenter = function() {tab_enter(tab_id)};
-		tab.onmouseleave = function() {tab_leave(tab_id)};
-		tab.onclick = function() {tab_click(tab_id, i)};
-		
-		import_json().then(
-			function(val) { tab.innerText = val["tabs"][tab_id]["title"] }
-		);
-		
-		body.appendChild(tab);
-	}
 }
 
 function stylize_tab(box, tab, ct, idx, id) {
@@ -184,10 +156,12 @@ function stylize_tab(box, tab, ct, idx, id) {
 	return tab;
 }
 
-function tab_idx(n_tabs) {
-	let idcs = [];
-	let ids = [];
-	let cts = [0, 0, 0, 0];
+function tab_info(n_tabs) {
+	const info = {
+		idcs: [],
+		ids: [],
+		cts: [0, 0, 0, 0]
+	}
 
 	for(let i = 0; i < n_tabs; i++) {
 		let idx;
@@ -200,16 +174,11 @@ function tab_idx(n_tabs) {
 			idx = (3 - (i % 4)) % 4;
 		}
 
-		idcs.push(idx);
-		ids.push(cts[idx]);
-		cts[idx] += 1;
+		info["idcs"].push(idx);
+		info["ids"].push(info["cts"][idx]);
+		info["cts"][idx] += 1;
 	}
 
-	const info = {
-		idcs: idcs,
-		ids: ids,
-		cts: cts
-	}
 	return info;
 }
 
@@ -220,19 +189,37 @@ function tab_enter(tab_id) {
 }
 
 function tab_leave(tab_id) {
-	tab = document.getElementById(tab_id);
-	tab.style.color = "black";
-	tab.style.backgroundColor = "white";
+	if(tab_id != "tab_" + String(active_tab)) {
+		tab = document.getElementById(tab_id);
+		tab.style.color = "black";
+		tab.style.backgroundColor = "white";
+	}
 }
 
-function tab_click(tab_id, i) {
-	tab = document.getElementById(tab_id);
-	tab.style.color = "white";
-	tab.style.backgroundColor = "black";
+function tab_click(idx) {
 
-	const text = main_text(tab_id);
-	
+	for(let i = 0; i < n_tabs; i++) {
+
+		let tab_id = "tab_" + String(i);
+
+		if(i == idx) {
+			tab = document.getElementById(tab_id);
+			tab.style.color = "white";
+			tab.style.backgroundColor = "black";
+		}
+
+		else {
+			tab = document.getElementById(tab_id);
+			tab.style.color = "black";
+			tab.style.backgroundColor = "white";
+		}
+	}
+
+	active_tab = idx;
+	let tab_id = "tab_" + String(idx);
 	const text_box = document.getElementById("text_box");
-
-	text_box.innerText = text;
+	
+	import_json().then(
+		function(val) { (text_box.innerText = val["tabs"][tab_id]["body"]) }
+	);
 }
