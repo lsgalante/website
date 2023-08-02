@@ -1,8 +1,13 @@
-// import data from "./info.json" assert {type: "json"};
+async function import_json() {
+	const url = "https://lucas.co/info.json";
+	const promise = await fetch(url);
+	const data = await promise.json();
+	return data;
+}
 
-// import_json();
-
-// console.log(data.x);
+import_json().then(
+	function(val) {console.log(val["tabs"])}
+);
 
 const n_tabs = 5;
 
@@ -28,6 +33,7 @@ function main_text(idx) {
 
 function populate() {
 	const body = document.getElementById("body");
+	
 	body.style.backgroundColor = "#c8c7db";
 	const info = tab_idx(n_tabs);
 
@@ -108,7 +114,9 @@ function make_tabs(info, box) {
 		tab.onmouseleave = function() {tab_leave(tab_id)};
 		tab.onclick = function() {tab_click(tab_id, i)};
 		
-		tab.innerText = "title";
+		import_json().then(
+			function(val) { tab.innerText = val["tabs"][tab_id]["title"] }
+		);
 		
 		body.appendChild(tab);
 	}

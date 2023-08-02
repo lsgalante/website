@@ -3,32 +3,38 @@
 	{
 		"tab_0":
 		{
-			"title": "Morphogen"
+			"title": "Morphogen",
+			"body": "very special & advanced computer programme"
 		},
 
 		"tab_1":
 		{
-			"title": "Moldtek"
+			"title": "Moldtek",
+			"body": "another very special and advanced computer programme"
 		},
 
 		"tab_2":
 		{
-			"title": "Drawing"
+			"title": "Drawing",
+			"body": "a mad dope drawing i done"
 		},
 
 		"tab_3":
 		{
-			"title": "Spoon"
+			"title": "Spoon",
+			"body": "im working on it"
 		},
 
 		"tab_4":
 		{
-			"title": "tab_4_title"
+			"title": "tab_4_title",
+			"body": "tab 4 lol"
 		},
 
 		"tab_5":
 		{
-			"title": "tab_5_title"
+			"title": "tab_5_title",
+			"body": "tab 5 lolol"
 		}
 	}
 }
