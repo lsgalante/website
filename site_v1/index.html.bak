@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<link rel="stylesheet" href="mystyle.css">
+    <title>Synthpu.re</title>
+</head>
+
+<body>
+	<div class="header">
+		Synthpu.re
+	</div>
+	
+	<div class = "contact_box">
+		<div>Halcyinth Elbatour</div>
+		<p>x@x.com</p>
+		<p>@x</p>
+	</div>
+	
+	<div class="chocolate_box">
+		<div class="box_title">Chocolate Anime Figures</div>
+	
+  		<input class="radio" id="one" name="chocolate_figures" type="radio" checked>
+  		<input class="radio" id="two" name="chocolate_figures" type="radio">
+  
+		<div class="tab_container">
+    		<label class="tab" id="tab_one" for="one">Chobits Chii</label>
+    		<label class="tab" id="tab_two" for="two">New Figure</label>
+		</div>
+		
+		<div class="slides">
+    		<div class="slide" id="slide_one">
+				<img class="image" src="media/chobits-chii.png" height="128" width="128">
+				<div class="description">Chobits Chii is a beautiful girl and you can take a big bite out of her with Chobits Chii Anime Figure Made Out of Chocolate.</div>
+				<div class="price">USD 80</div>
+    		</div>
+    		<div class="slide" id="slide_two">
+      			<img class="image" src="media/rin_kokonoe.jpg" height="128" width="128">
+				<div class="description">Please bear the extra cost and ask me to make you a new Anime Figure that I have not done before. Whatever character you choose will be added to the lineup of figures you can order for USD 80.</div>
+				<div class="price">USD 200</div>
+    		</div>
+		</div>
+	</div>
+	
+	<div class="sewing_box">
+		
+		<div class="box_title">Sewing Services</div>
+		
+		<input class="radio" id="one" name="sewing_services" type="radio" checked>
+		
+		<div class="tab_container">
+			<label class="tab" id="tab_one" for="one">Alterations</label>
+		</div>
+		
+		<div class="slides">
+			<div class="slide" id="slide_one">
+			Alteration
+			</div>
+			<div class="price">USD TBD</div>
+		</div>
+	</div>
+	
+	<div class="magic_box">
+		
+	</div>
+
+</body>
+
+</html>
