@@ -1,16 +1,19 @@
+let n_tabs = 5;
+
+let active_tab = 0;
+
 function loadPage() {
-	populate();
-}
-
-function populate() {
-	const body = document.getElementById("body");
-	
-	body.style.backgroundColor = "#c8c7db";
-
 	let box = make_box();
-	let tabs = make_tabs(box);
+	let body = make_body();
+	let mode = site_mode();
 
-	document.body.append(box);
+	let tabs = make_tabs(box);
+	for(let i = 0; i < tabs.length; i++) {
+		body.append(tabs[i]);
+	}
+
+	body.append(box);
+	body.append(mode);
 	click(0);
 }
 
@@ -21,9 +24,15 @@ async function import_json() {
 	return data;
 }
 
-let n_tabs = 5;
-
-let active_tab = 0;
+function make_body() {
+	const body = document.getElementById("body");
+	body.style.backgroundColor = "#c8c7db";
+	body.onmousemove = function(m) {
+		move(m);
+	}
+	
+	return body;
+}
 
 function make_box() {
 	let box = document.createElement("div");
@@ -44,50 +53,65 @@ function make_box() {
 	return box;
 }
 
-function make_tabs(box) {
-	const info = tabs_info(n_tabs);
+function tab_data(n_tabs) {
+	const data = {
+		n: [0, 0, 0, 0],
+	}
 
-	for(let i = 0; i < info["idcs"].length; i++) {
-		let idx = info["idcs"][i];
+	for(let i = 0; i < n_tabs; i++) {
+		let tab_id = "tab_" + String(i);
+		let idx;
 
-		let tab_info = {
-			idx:idx,
-			n: info["n"][idx],
-			id: info["ids"][i]
+		if(i < 4) {
+			idx = i;
 		}
+
+		else if(i >= 4) {
+			idx = (3 - (i % 4)) % 4;
+		}
+
+		let tab = {
+			idx: idx,
+			id: data.n[idx]
+		}
+		data[tab_id] = tab;
+		data.n[idx] += 1;
+	}
+	console.log(data);
+	return data;
+}
+
+function make_tabs() {
+	const data = tab_data(n_tabs);
+	let tabs = [];
+
+	for(let i = 0; i < n_tabs; i++) {
 
 		let tab = document.createElement("div");
 		tab.id = "tab_" + String(i);
 
-		tab.style.display = "flex";
-		tab.style.alignItems = "center";
-		tab.style.justifyContent = "center";
+		stylize_tab(tab, data);
 
-		stylize_tab(box, tab, tab_info);
-		functions_tab(tab, i);
+		tab.onmouseenter = function() {
+			enter(tab.id);
+		}
+		tab.onmouseleave = function() {
+			leave(tab.id);
+		}
+		tab.onclick = function() {
+			click(i);
+		}
 
-		import_json().then(
-			function(val) {
-				let title = val["tabs"][tab.id]["title"];
-
-				if(idx == 1 || idx == 3) {
-					let new_title = "";
-					let length = title.length;
-
-					for(let ii = 0; ii < length; ii++) {
-						let letter = title[ii];
-						new_title += letter + "\n";
-					}
-
-					title = new_title;
-				}
-
-				tab.innerText = title;
-			}
-		);
-		
-		body.append(tab);
+		tabs.push(tab);
 	}
+	return tabs;
+}
+
+function site_mode() {
+	let element = document.createElement("div");
+	element.id = "site_mode";
+	element.innerText = String("start");
+	return element;
 }
 
 function stylize_box(box) {
@@ -114,10 +138,25 @@ function stylize_box(box) {
 	return box;
 }
 
-function stylize_tab(box, tab, tab_info) {
-	const n = tab_info["n"];
-	const idx = tab_info["idx"];
-	const id = tab_info["id"];
+function stylize_tab(tab, data) {
+
+	const idx = data[tab.id].idx;
+	const n = data.n[idx];
+	const id = data[tab.id].id;
+
+	import_json().then(
+	function(vars) {
+		let title = vars.tabs[tab.id].title;
+
+		if(idx == 1 || idx == 3) {
+			let new_title = "";
+			for(const letter of title) {
+				new_title += letter + "\n";
+			}
+			title = new_title;
+		}
+		tab.innerText = title;
+	});
 
 	const box_x = 400;
 	const box_y = 250;
@@ -125,19 +164,9 @@ function stylize_tab(box, tab, tab_info) {
 	const box_left = window.innerWidth / 2 - box_x / 2;
 	const box_top = window.innerHeight / 2 - box_y / 2;
 	
-	const x = [
-		box_x / n,
-		25,
-		box_x / n,
-		25
-	][idx]
+	const x = [box_x / n, 25, box_x / n, 25][idx]
 
-	const y = [
-		25,
-		box_y / n,
-		25,
-		box_y / n
-	][idx]
+	const y = [25, box_y / n, 25, box_y / n][idx]
 
 	let left = [
 		box_left + x * id,
@@ -188,6 +217,9 @@ function stylize_tab(box, tab, tab_info) {
 	tab.style.borderStyle = "solid";
 	tab.style.borderColor = "black";
 	tab.style.borderWidth = "1px";
+	tab.style.display = "flex";
+	tab.style.alignItems = "center";
+	tab.style.justifyContent = "center";
 
 	tab.style.backgroundColor = "white";
 
@@ -199,39 +231,9 @@ function stylize_tab(box, tab, tab_info) {
 	return tab;
 }
 
-function tabs_info(n_tabs) {
-	const info = {
-		idcs: [],
-		ids: [],
-		n: [0, 0, 0, 0]
-	}
-
-	for(let i = 0; i < n_tabs; i++) {
-		let idx;
-
-		if(i < 4) {
-			idx = i;
-		}
-
-		else if(i >= 4) {
-			idx = (3 - (i % 4)) % 4;
-		}
-
-		info["idcs"].push(idx);
-		info["ids"].push(info["n"][idx]);
-		info["n"][idx] += 1;
-	}
-
-	return info;
-}
-
-function functions_tab(element, i) {
-
-	element.onmouseenter = function() {enter(element.id)};
-	element.onmouseleave = function() {leave(element.id)};
-	element.onclick = function() {click(i)};
-
-	return element;
+function move(m) {
+	element = document.getElementById("site_mode");
+	element.innerText = m.clientX;
 }
 
 function enter(tab_id) {
