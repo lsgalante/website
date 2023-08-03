@@ -11,7 +11,7 @@ function populate() {
 	let tabs = make_tabs(box);
 
 	document.body.append(box);
-	tab_click(0);
+	click(0);
 }
 
 async function import_json() {
@@ -21,7 +21,7 @@ async function import_json() {
 	return data;
 }
 
-const n_tabs = 5;
+let n_tabs = 5;
 
 let active_tab = 0;
 
@@ -35,9 +35,9 @@ function make_box() {
 	text_box.style.margin = "25px";
 	text_box.id = "text_box";
 
-	import_json().then(
-		function(val) { text_box.innerText = val["tabs"]["tab_0"]["body"] }
-	);
+	import_json().then(function(val) {
+		text_box.innerText = val["tabs"]["tab_0"]["body"]
+	});
 
 	box.append(text_box);
 
@@ -45,28 +45,48 @@ function make_box() {
 }
 
 function make_tabs(box) {
-	const info = tab_info(n_tabs);
+	const info = tabs_info(n_tabs);
 
 	for(let i = 0; i < info["idcs"].length; i++) {
-
 		let idx = info["idcs"][i];
-		let ct = info["cts"][idx];
-		let id = info["ids"][i];
+
+		let tab_info = {
+			idx:idx,
+			n: info["n"][idx],
+			id: info["ids"][i]
+		}
 
 		let tab = document.createElement("div");
-		tab = stylize_tab(box, tab, ct, idx, id);
-
 		tab.id = "tab_" + String(i);
-		
-		tab.onmouseenter = function() {tab_enter(tab.id)};
-		tab.onmouseleave = function() {tab_leave(tab.id)};
-		tab.onclick = function() {tab_click(i)};
-		
+
+		tab.style.display = "flex";
+		tab.style.alignItems = "center";
+		tab.style.justifyContent = "center";
+
+		stylize_tab(box, tab, tab_info);
+		functions_tab(tab, i);
+
 		import_json().then(
-			function(val) { tab.innerText = val["tabs"][tab.id]["title"] }
+			function(val) {
+				let title = val["tabs"][tab.id]["title"];
+
+				if(idx == 1 || idx == 3) {
+					let new_title = "";
+					let length = title.length;
+
+					for(let ii = 0; ii < length; ii++) {
+						let letter = title[ii];
+						new_title += letter + "\n";
+					}
+
+					title = new_title;
+				}
+
+				tab.innerText = title;
+			}
 		);
 		
-		body.appendChild(tab);
+		body.append(tab);
 	}
 }
 
@@ -94,7 +114,11 @@ function stylize_box(box) {
 	return box;
 }
 
-function stylize_tab(box, tab, ct, idx, id) {
+function stylize_tab(box, tab, tab_info) {
+	const n = tab_info["n"];
+	const idx = tab_info["idx"];
+	const id = tab_info["id"];
+
 	const box_x = 400;
 	const box_y = 250;
 
@@ -102,26 +126,31 @@ function stylize_tab(box, tab, ct, idx, id) {
 	const box_top = window.innerHeight / 2 - box_y / 2;
 	
 	const x = [
-		box_x / ct,
-		box_y / ct,
-		box_x / ct,
-		box_y / ct
+		box_x / n,
+		25,
+		box_x / n,
+		25
 	][idx]
 
-	const y = 25;
+	const y = [
+		25,
+		box_y / n,
+		25,
+		box_y / n
+	][idx]
 
 	let left = [
 		box_left + x * id,
-		box_left + box_x - x / 2 + y / 2,
+		box_left + box_x - x / 2 + x / 2,
 		box_left + x * id,
-		box_left - x / 2 - y / 2
+		box_left - x / 2 - x / 2
 	][idx]
 
 	const top = [
 		box_top - y,
-		box_top + x / 2 - y / 2 + x * id,
+		box_top + y / 2 - y / 2 + y * id,
 		box_top + box_y,
-		box_top + x / 2 - y / 2 + x * id
+		box_top + y / 2 - y / 2 + y * id
 	][idx];
 
 	const border_radius = 45;
@@ -136,8 +165,25 @@ function stylize_tab(box, tab, ct, idx, id) {
 	tab.style.left = left.toString() + "px";
 	tab.style.top = top.toString() + "px";
 
-	tab.style.borderTopLeftRadius = border_radius + "px";
-	tab.style.borderTopRightRadius = border_radius + "px";
+	if(idx == 0) {
+		tab.style.borderTopLeftRadius = border_radius + "px";
+		tab.style.borderTopRightRadius = border_radius + "px";
+	}
+
+	if(idx == 1) {
+		tab.style.borderTopRightRadius = border_radius + "px";
+		tab.style.borderBottomRightRadius = border_radius + "px";
+	}
+
+	if(idx == 2) {
+		tab.style.borderBottomRightRadius = border_radius + "px";
+		tab.style.borderBottomLeftRadius = border_radius + "px";
+	}
+
+	if(idx == 3) {
+		tab.style.borderBottomLeftRadius = border_radius + "px";
+		tab.style.borderTopLeftRadius = border_radius + "px";
+	}
 
 	tab.style.borderStyle = "solid";
 	tab.style.borderColor = "black";
@@ -148,19 +194,16 @@ function stylize_tab(box, tab, ct, idx, id) {
 	tab.style.color = "black";
 	tab.style.fontSize = 12;
 
-	tab.style.textAlign = "center";
-	tab.style.lineHeight = "26px";
-
-	tab.style.transform = transform;
+	tab.style.lineHeight = "11px";
 
 	return tab;
 }
 
-function tab_info(n_tabs) {
+function tabs_info(n_tabs) {
 	const info = {
 		idcs: [],
 		ids: [],
-		cts: [0, 0, 0, 0]
+		n: [0, 0, 0, 0]
 	}
 
 	for(let i = 0; i < n_tabs; i++) {
@@ -175,20 +218,29 @@ function tab_info(n_tabs) {
 		}
 
 		info["idcs"].push(idx);
-		info["ids"].push(info["cts"][idx]);
-		info["cts"][idx] += 1;
+		info["ids"].push(info["n"][idx]);
+		info["n"][idx] += 1;
 	}
 
 	return info;
 }
 
-function tab_enter(tab_id) {
+function functions_tab(element, i) {
+
+	element.onmouseenter = function() {enter(element.id)};
+	element.onmouseleave = function() {leave(element.id)};
+	element.onclick = function() {click(i)};
+
+	return element;
+}
+
+function enter(tab_id) {
 	tab = document.getElementById(tab_id);
 	tab.style.color = "white";
 	tab.style.backgroundColor = "black";
 }
 
-function tab_leave(tab_id) {
+function leave(tab_id) {
 	if(tab_id != "tab_" + String(active_tab)) {
 		tab = document.getElementById(tab_id);
 		tab.style.color = "black";
@@ -196,7 +248,7 @@ function tab_leave(tab_id) {
 	}
 }
 
-function tab_click(idx) {
+function click(idx) {
 
 	for(let i = 0; i < n_tabs; i++) {
 
