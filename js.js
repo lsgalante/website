@@ -1,5 +1,5 @@
 let n_tabs = 5;
-
+//
 let mode = "desktop";
 let pos_x = 0;
 let pox_y = 0;
