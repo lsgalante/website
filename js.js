@@ -1,12 +1,9 @@
 let n_tabs = 5;
-//
-let mode = "desktop";
-let pos_x = 0;
-let pox_y = 0;
 
+let mode = "desktop";
 let mobile = navigator.userAgentData.mobile;
 
-if(mobile == true) { mode = "mobilw"; }
+if(mobile == true) { mode = "mobile"; }
 
 console.log(navigator.userAgentData.mobile);
 let active_tab = 0;
@@ -303,20 +300,14 @@ function mode_box_click() {
 		body.append(puck);
 
 		body.onmousedown = function() {
-			const pos_a = MouseEvent["screenX"];
-			console.log(event.MouseEvent);
-
-			// body.onmousemove = function(pos_a) {
-				// pos_x += event.screenX - pos_a;
-				// puck.style.left += String(pos_x) + "px";
-			// }
+			move_puck();
 		}
 	
 		body.onmouseup = function() {
-			body.onmousemove = function() {
-			}
+			body.onmousemove = function() {}
 		}
 
+		disable_desktop();
 	}
 
 	else {
@@ -334,13 +325,69 @@ function make_puck() {
 	puck.style.height = "25px";
 	puck.style.width = "25px";
 	puck.style.top = "5px";
+	puck.style.left = "50px";
+	puck.style.borderTopLeftRadius = "50px";
+	puck.style.borderTopRightRadius = "50px";
+	puck.style.borderBottomRightRadius = "50px";
+	puck.style.borderBottomLeftRadius = "50px";
 
 	return puck;
 }
 
 function move_puck() {
-	element = document.getElementById("site_mode");
-	// element.innerText = m.clientX;
+	puck = document.getElementById("puck");
+	body.onmousemove = function() {
+		let start_x = puck.style.left;
+		let start_y = puck.style.top;
+
+		start_x = start_x.slice(0, -2);
+		start_y = start_y.slice(0, -2);
+		
+		puck.style.left = String(event.movementX + Number(start_x)) + "px";
+		puck.style.top = String(event.movementY + Number(start_y)) + "px";
+
+		puck_select(start_x, start_y);
+	}
+}
+
+function disable_desktop() {
+	for(let i = 0; i < n_tabs; i++) {
+		let tab_id = "tab_" + String(i);
+		let tab = document.getElementById(tab_id);
+		tab.onmouseenter = function() {}
+		tab.onmouseleave = function() {}
+		tab.onclick = function() {}
+	}
+}
+
+function puck_select(x, y) {
+	let active = -1;
+
+	for(let i = 0; i < n_tabs; i++) {
+		let tab_id = "tab_" + String(i);
+		let tab = document.getElementById(tab_id);
+
+		let left = Number(tab.style.left.slice(0, -2));
+		let top = Number(tab.style.top.slice(0, -2));
+
+		let width = Number(tab.style.width.slice(0, -2));
+		let height = Number(tab.style.height.slice(0, -2));
+
+		let min_x = left;
+		let max_x = left + width;
+		let max_y = top;
+		let min_y = top - height;
+
+		if(x > min_x && x < max_x && y-height > min_y && y-height < max_y) {
+			tab.style.backgroundColor = "black";
+			tab.style.color = "white";
+		}
+
+		else {
+			tab.style.backgroundColor = "white";
+			tab.style.color = "black";
+		}
+	}
 }
 
 //
