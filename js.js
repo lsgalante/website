@@ -1,29 +1,5 @@
 let n_tabs = 5;
-
-let mode = "desktop";
-let mobile = navigator.userAgentData.mobile;
-
-if(mobile == true) { mode = "mobile"; }
-
-console.log(navigator.userAgentData.mobile);
 let active_tab = 0;
-
-function loadPage() {
-	let box = make_box();
-	let body = make_body();
-	let mode_box = make_mode_box();
-	let files_box = make_files_box();
-
-	let tabs = make_tabs(box);
-	for(let i = 0; i < tabs.length; i++) {
-		body.append(tabs[i]);
-	}
-
-	body.append(box);
-	body.append(mode_box);
-	body.append(files_box);
-	click_tab(0);
-}
 
 async function import_json() {
 	const url = "https://lucas.co/info.json";
@@ -32,36 +8,83 @@ async function import_json() {
 	return data;
 }
 
-//
+function loadPage() {
+	let client_properties = get_client_properties();
+	create_structure();
+	create_tabs();
 
-function make_body() {
-	const body = document.getElementById("body");
+	click_tab(0);
+}
+
+function get_client_properties() {
+	let x = window.innerWidth;
+	let y = window.innerHeight;
+}
+
+function create_structure() {
+	let body = document.getElementById("body");
+
+	let box = document.createElement("div");
+	let description = document.createElement("div");
+	let mode_box = document.createElement("div");
+	let files_box = document.createElement("div");
+
+	body.append(files_box);
+	body.append(mode_box);
+
+	box.append(description);
+	body.append(box);
+	
+	box.id = "box";
+	description.id = "description";
+	mode_box.id = "mode_box";
+	files_box.id = "files_box";
+
+	body = style_body(body);
+	box = style_box(box);
+	description = style_description(description);
+	mode_box = style_mode_box(mode_box);
+	file_box = style_files_box(files_box);
+}
+
+function create_tabs() {
+	const data = tab_data(n_tabs);
+	let tabs = [];
+
+	for(let i = 0; i < n_tabs; i++) {
+
+		let tab = document.createElement("div");
+		tab.id = "tab_" + String(i);
+
+		style_tab(tab, data);
+
+		tab.onmouseenter = function() {
+			enter_tab(tab.id);
+		}
+		tab.onmouseleave = function() {
+			leave_tab(tab.id);
+		}
+		tab.onclick = function() {
+			click_tab(i);
+		}
+
+		tabs.push(tab);
+	}
+
+	for(let i = 0; i < tabs.length; i++) {
+		body.append(tabs[i]);
+	}
+}
+
+//-------------------------------------
+
+function style_body(body) {
 	body.style.backgroundColor = "#c8c7db";
+	
 	return body;
 }
 
-//
-
-function make_box() {
-	let box = document.createElement("div");
-
-	box = stylize_box(box);
-	box.id = "box";
-
-	let text_box = document.createElement("div");
-	text_box.style.margin = "25px";
-	text_box.id = "text_box";
-
-	import_json().then(function(val) {
-		text_box.innerText = val["tabs"]["tab_0"]["body"]
-	});
-
-	box.append(text_box);
-
-	return box;
-}
-
-function stylize_box(box) {
+function style_box(box) {
 	const x = 400;
 	const y = 250;
 
@@ -80,68 +103,46 @@ function stylize_box(box) {
 	box.style.padding = 0;
 
 	box.style.borderStyle = "none";
-	// box.style.borderWidth = "1px";
 
 	return box;
 }
 
-//
+function style_description(description) {
+	description.style.margin = "25px";
 
-function tab_data(n_tabs) {
-	const data = {
-		n: [0, 0, 0, 0],
-	}
+	import_json().then(function(val) {
+		description.innerText = val["tabs"]["tab_0"]["body"]
+	});
 
-	for(let i = 0; i < n_tabs; i++) {
-		let tab_id = "tab_" + String(i);
-		let idx;
-
-		if(i < 4) {
-			idx = i;
-		}
-
-		else if(i >= 4) {
-			idx = (3 - (i % 4)) % 4;
-		}
-
-		let tab = {
-			idx: idx,
-			id: data.n[idx]
-		}
-		data[tab_id] = tab;
-		data.n[idx] += 1;
-	}
-	console.log(data);
-	return data;
+	return description;
 }
 
-function make_tabs() {
-	const data = tab_data(n_tabs);
-	let tabs = [];
+function style_mode_box(mode_box) {
+	let touch_pts = navigator.maxTouchPoints;
 
-	for(let i = 0; i < n_tabs; i++) {
-
-		let tab = document.createElement("div");
-		tab.id = "tab_" + String(i);
-
-		stylize_tab(tab, data);
-
-		tab.onmouseenter = function() {
-			enter_tab(tab.id);
-		}
-		tab.onmouseleave = function() {
-			leave_tab(tab.id);
-		}
-		tab.onclick = function() {
-			click_tab(i);
-		}
-
-		tabs.push(tab);
+	if(touch_pts > 0) {
+		set_mode("touch")
 	}
-	return tabs;
+	
+	else {
+		set_mode("mouse")
+	}
+
+	return mode_box;
 }
 
-function stylize_tab(tab, data) {
+function style_files_box(files_box) {
+	files_box.innerText = "Files";
+	files_box.style.position = "fixed";
+	files_box.style.right = "15px";
+	files_box.style.top = "15px";
+	files_box.style.borderWidth = "2px";
+	files_box.style.borderStyle = "solid";
+	files_box.style.padding = "5px";
+	return files_box;
+}
+
+function style_tab(tab, data) {
 
 	const idx = data[tab.id].idx;
 	const n = data.n[idx];
@@ -234,6 +235,98 @@ function stylize_tab(tab, data) {
 	return tab;
 }
 
+function style_puck(puck) {
+	puck.style.position = "fixed";
+	puck.style.backgroundColor = "black";
+	puck.style.height = "25px";
+	puck.style.width = "25px";
+	puck.style.top = "5px";
+	puck.style.left = "50px";
+	puck.style.borderTopLeftRadius = "50px";
+	puck.style.borderTopRightRadius = "50px";
+	puck.style.borderBottomRightRadius = "50px";
+	puck.style.borderBottomLeftRadius = "50px";
+
+	return puck;
+}
+//----------------------------------------------
+
+function set_mode(mode) {
+	let mode_box = document.getElementById("mode_box");
+
+	if(mode == "mouse") {
+		let puck = document.getElementById("puck");
+		// document.remove(puck);
+		mode_box.innerText = "mouse";
+
+		mode_box.onclick = function() {
+			set_mode("touch");
+		}
+	}
+
+	if(mode == "touch") {
+		mode_box.innerText = "touch";
+
+		let puck = document.createElement("div");
+		puck.id = "puck"
+		puck = style_puck(puck);
+		body.append(puck);
+
+		mode_box.onclick = function() {
+			set_mode("mouse");
+		}
+
+		body.touchstart = function() {
+			console.log("ddd");
+			move_puck();
+		}
+
+		body.onmousedown = function() {
+			move_puck();
+		}
+	
+		// body.onmouseup = function() {
+		// 	body.onmousemove = function() {}
+		// }
+
+		// for(let i = 0; i < n_tabs; i++) {
+		// 	let tab_id = "tab_" + String(i);
+		// 	let tab = document.getElementById(tab_id);
+		// 	tab.onmouseenter = function() {}
+		// 	tab.onmouseleave = function() {}
+		// 	tab.onclick = function() {}
+		// }
+	}
+}
+
+function tab_data(n_tabs) {
+	const data = {
+		n: [0, 0, 0, 0],
+	}
+
+	for(let i = 0; i < n_tabs; i++) {
+		let tab_id = "tab_" + String(i);
+		let idx;
+
+		if(i < 4) {
+			idx = i;
+		}
+
+		else if(i >= 4) {
+			idx = (3 - (i % 4)) % 4;
+		}
+
+		let tab = {
+			idx: idx,
+			id: data.n[idx]
+		}
+		data[tab_id] = tab;
+		data.n[idx] += 1;
+	}
+	console.log(data);
+	return data;
+}
+
 function enter_tab(tab_id) {
 	tab = document.getElementById(tab_id);
 	tab.style.color = "white";
@@ -269,73 +362,18 @@ function click_tab(idx) {
 
 	active_tab = idx;
 	let tab_id = "tab_" + String(idx);
-	const text_box = document.getElementById("text_box");
+	const description = document.getElementById("description");
 	
 	import_json().then(
-		function(val) { (text_box.innerText = val["tabs"][tab_id]["body"]) }
+		function(val) {
+			(description.innerText = val["tabs"][tab_id]["body"])
+		}
 	);
-}
-
-//
-
-function make_mode_box() {
-	let element = document.createElement("div");
-	element.id = "mode_box";
-	element.innerText = mode;
-
-	element.onclick = function() {
-		mode_box_click();
-	}
-	return element;
-}
-
-function mode_box_click() {
-	element = document.getElementById("mode_box");
-
-	if(mode == "desktop") {
-		element.innerText = "mobile";
-		mode = "mobile";
-		let puck = make_puck();
-
-		body.append(puck);
-
-		body.onmousedown = function() {
-			move_puck();
-		}
-	
-		body.onmouseup = function() {
-			body.onmousemove = function() {}
-		}
-
-		disable_desktop();
-	}
-
-	else {
-		element.innerText = "desktop";
-		mode = "desktop";
-	}
-}
-
-function make_puck() {
-	puck = document.createElement("div");
-	puck.id = "puck";
-
-	puck.style.position = "fixed";
-	puck.style.backgroundColor = "black";
-	puck.style.height = "25px";
-	puck.style.width = "25px";
-	puck.style.top = "5px";
-	puck.style.left = "50px";
-	puck.style.borderTopLeftRadius = "50px";
-	puck.style.borderTopRightRadius = "50px";
-	puck.style.borderBottomRightRadius = "50px";
-	puck.style.borderBottomLeftRadius = "50px";
-
-	return puck;
 }
 
 function move_puck() {
 	puck = document.getElementById("puck");
+
 	body.onmousemove = function() {
 		let start_x = puck.style.left;
 		let start_y = puck.style.top;
@@ -348,15 +386,18 @@ function move_puck() {
 
 		puck_select(start_x, start_y);
 	}
-}
 
-function disable_desktop() {
-	for(let i = 0; i < n_tabs; i++) {
-		let tab_id = "tab_" + String(i);
-		let tab = document.getElementById(tab_id);
-		tab.onmouseenter = function() {}
-		tab.onmouseleave = function() {}
-		tab.onclick = function() {}
+	body.touchmove = function() {
+		let start_x = puck.style.left;
+		let start_y = puck.style.top;
+
+		start_x = start_x.slice(0, -2);
+		start_y = start_y.slice(0, -2);
+		
+		puck.style.left = String(event.movementX + Number(start_x)) + "px";
+		puck.style.top = String(event.movementY + Number(start_y)) + "px";
+
+		puck_select(start_x, start_y);
 	}
 }
 
@@ -388,19 +429,4 @@ function puck_select(x, y) {
 			tab.style.color = "black";
 		}
 	}
-}
-
-//
-
-function make_files_box() {
-	let files = document.createElement("div");
-	files.id = "files";
-	files.innerText = "Files";
-	files.style.position = "fixed";
-	files.style.right = "15px";
-	files.style.top = "15px";
-	files.style.borderWidth = "2px";
-	files.style.borderStyle = "solid";
-	files.style.padding = "5px";
-	return files;
 }
