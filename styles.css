@@ -9,11 +9,14 @@ body {
 }
 
 #box {
-	border-style: none;
+	/* border-style: solid; */
 	position: fixed;
+	align-items: center;
+	margin: auto;
 }
 
 #description {
+	/* border-style:solid; */
 	color: rgb(41, 62, 80);
 	position: relative;
 	margin: 25px;
