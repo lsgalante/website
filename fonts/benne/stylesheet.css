@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'Benne Text';
+    src: url('Benne-Regular.woff2') format('woff2'),
+        url('Benne-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+

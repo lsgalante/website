@@ -25,7 +25,7 @@ let tab_data = {
 
 	tab_4:
 	{
-		title: "info",
+		title: "Info",
 		body: "Lucas Galante\n\nadmin@lucas.co/\n\ngithub.com/lsgalante"
 	}
 }
@@ -145,7 +145,7 @@ function sizing() {
 	
 	let box = document.getElementById("box");
 	
-	let box_w = window_w * 0.4;
+	let box_w = window_w * 0.6;
 	let box_h = window_h * 0.5;
 	
 	let box_left = window_w / 2 - box_w / 2;

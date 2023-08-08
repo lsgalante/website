@@ -1,0 +1,13 @@
+@font-face {
+    font-family: 'seshatregular';
+    src: url('Seshat-webfont.eot');
+    src: url('Seshat-webfont.eot?#iefix') format('embedded-opentype'),
+         url('Seshat-webfont.woff2') format('woff2'),
+         url('Seshat-webfont.woff') format('woff'),
+         url('Seshat-webfont.ttf') format('truetype'),
+         url('Seshat-webfont.svg#seshatregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
