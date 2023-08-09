@@ -2,31 +2,36 @@ let tab_data = {
 	tab_0:
 	{
 		title: "Morphogen",
-		body: "Computer program for design through evolution and growth based exploration.\n\nImages coming soon."
+		body: "Computer program for design through evolution and growth based exploration.",
+		images: []
 	},
 
 	tab_1:
 	{
 		title: "Moldtek",
-		body: "Computer based mold designing tools for objects with very complex geometry."
+		body: "Computer based mold designing tools for objects with very complex geometry.",
+		images: []
 	},
 
 	tab_2:
 	{
 		title: "Drawing",
-		body: "Some examples of pencil drawings.\n\nImages coming soon."
+		body: "Some pencil drawings",
+		images: ["/images/drawing.png"]
 	},
 
 	tab_3:
 	{
 		title: "Spoon",
-		body: "A wax carving intended for ceramic slip casting.\n\nImages coming soon."
+		body: "A wax carving intended for ceramic slip casting.",
+		images: []
 	},
 
 	tab_4:
 	{
 		title: "Info",
-		body: "Lucas Galante\n\nadmin@lucas.co/\n\ngithub.com/lsgalante"
+		body: "Lucas Galante\n\nadmin@lucas.co/\n\ngithub.com/lsgalante",
+		images: []
 	}
 }
 
@@ -47,7 +52,6 @@ let counts = [0, 0, 0, 0];
 
 function loadPage() {
 	create_tabs();
-	sizing();
 	set_tab(0);
 }
 
@@ -109,6 +113,8 @@ function set_tab(idx) {
 			let tab = document.getElementById(tab_id);
 			tab.style.backgroundColor = bg_on;
 			tab.style.color = txt_on;
+			active_tab = i;
+			images(i);
 		}
 
 		else {
@@ -123,6 +129,8 @@ function set_tab(idx) {
 	const description = document.getElementById("description");
 	
 	(description.innerText = tab_data[tab_id]["body"])
+
+	sizing();
 }
 
 function enter_tab(tab_id) {
@@ -139,10 +147,32 @@ function leave_tab(tab_id) {
 	}
 }
 
+function images(i) {
+	let images = document.getElementsByTagName("img");
+
+	for(let img of images) {
+		img.remove();
+	}
+
+	let box = document.getElementById("box");
+	let urls = tab_data["tab_" + i].images;
+	let n = 0;
+	for(let url of urls) {
+		let image = document.createElement("img");
+		image.src=url;
+		image.id = "image_" + n;
+		box.append(image);
+		n += 1;
+	}
+}
+
 function sizing() {
 	let window_w = window.innerWidth;
 	let window_h = window.innerHeight;
-	
+
+	let font_size = window_h * 0.014;
+
+	// box
 	let box = document.getElementById("box");
 	
 	let box_w = window_w * 0.6;
@@ -156,11 +186,30 @@ function sizing() {
 	
 	box.style.left = box_left + "px";
 	box.style.top = box_top + "px";
+
+	box.style.fontSize = font_size + "px";
 	
+	// image
+	let images = document.getElementsByTagName("img");
+	let n_images = images.length;
+	console.log(n_images);
+	
+	let img_w = box_w * 0.4;
+	let img_h = box_h * 0.4;
+
+	for(img of images) {		
+		img.style.width = img_w + "px";
+		img.style.height = img_h + "px";
+
+		img.style.left = 20 + "px";
+		img.style.top = (img_h - 20) + "px";
+	}
+
+	// tab
 	let tab_w;
 	let tab_h;
 	
-	let dim_1 = 25;
+	let dim_1 = window_h * 0.03;
 	
 	const border_radius = 45;
 
@@ -169,6 +218,8 @@ function sizing() {
 		let pos = tab.pos;
 		let idx = tab.idx;
 		let count = counts[pos];
+
+		tab.style.fontSize = font_size + "px";
 
 		if(pos == 0) {
 			tab_w = box_w / count;
@@ -190,6 +241,8 @@ function sizing() {
 
 			tab.style.borderTopRightRadius = border_radius + "px";
 			tab.style.borderBottomRightRadius = border_radius + "px";
+
+			tab.style.lineHeight = font_size + "px";
 		}
 
 		if(pos == 2) {
@@ -212,9 +265,15 @@ function sizing() {
 			
 			tab.style.borderBottomLeftRadius = border_radius + "px";
 			tab.style.borderTopLeftRadius = border_radius + "px";
+
+			tab.style.lineHeight = font_size + "px";
 		}
 
 		tab.style.width = tab_w + "px";
 		tab.style.height = tab_h + "px";
 	}
+
+	// files
+	let files_box = document.getElementById("files");
+	files_box.style.fontSize = font_size + "px";
 }

@@ -10,6 +10,11 @@ a {
 	text-decoration-line: none;
 }
 
+img {
+	position: relative;
+
+}
+
 #box {
 	position: fixed;
 	align-items: center;
@@ -19,24 +24,21 @@ a {
 #description {
 	color: rgb(255, 233, 201);
 	position: relative;
-	font-size: 14px;
-	margin: 25px;
+	margin: 28px;
 }
 
 div[id*="tab"] {
-	border-width: 1px;
+	border-width: 1.5px;
 	border-style: solid;
 	border-color: black;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	font-size: 14px;
-	line-height: 11px;
 	position: fixed;
 }
 
 #files {
-	color: rgb(137, 135, 158);
+	color: rgb(190, 143, 124);
 	position: fixed;
 	right: 15px;
 	top: 15px;
@@ -46,5 +48,5 @@ div[id*="tab"] {
 }
 
 #files:hover {
-	color: rgb(115, 87, 168);
+	color: rgb(15, 4, 36);
 }
