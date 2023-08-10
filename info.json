@@ -1,40 +1,33 @@
 {
-	"tabs":
-	{
-		"tab_0":
-		{
+	"tabs": {
+		"tab_0": {
 			"title": "Morphogen",
-			"body": "very special & advanced computer programme"
+			"body": "Computer program for design through evolution and growth based exploration.",
+			"image": []
 		},
 
-		"tab_1":
-		{
+		"tab_1": {
 			"title": "Moldtek",
-			"body": "another very special and advanced computer programme"
+			"body": "Computer based mold designing tools for objects with very complex geometry.",
+			"image": []
 		},
 
-		"tab_2":
-		{
+		"tab_2": {
 			"title": "Drawing",
-			"body": "a mad dope drawing i done"
+			"body": "Some pencil drawings",
+			"image": ["/images/drawing.png"]
 		},
 
-		"tab_3":
-		{
+		"tab_3": {
 			"title": "Spoon",
-			"body": "im working on it"
+			"body": "A wax carving intended for ceramic slip casting",
+			"image": []
 		},
 
-		"tab_4":
-		{
-			"title": "info",
-			"body": "tab 4 lol"
-		},
-
-		"tab_5":
-		{
-			"title": "tab_5_title",
-			"body": "tab 5 lolol"
+		"tab_4": {
+			"title": "Info",
+			"body": "Lucas Galante\n\nadmin@lucas.co/\n\n",
+			"image": []
 		}
 	}
 }

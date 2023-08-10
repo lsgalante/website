@@ -1,56 +1,26 @@
-let tab_data = {
-	tab_0:
-	{
-		title: "Morphogen",
-		body: "Computer program for design through evolution and growth based exploration.",
-		images: []
-	},
+import data from "./info.json" assert { type: "json" };
+console.log(data);
 
-	tab_1:
-	{
-		title: "Moldtek",
-		body: "Computer based mold designing tools for objects with very complex geometry.",
-		images: []
-	},
-
-	tab_2:
-	{
-		title: "Drawing",
-		body: "Some pencil drawings",
-		images: ["/images/drawing.png"]
-	},
-
-	tab_3:
-	{
-		title: "Spoon",
-		body: "A wax carving intended for ceramic slip casting.",
-		images: []
-	},
-
-	tab_4:
-	{
-		title: "Info",
-		body: "Lucas Galante\n\nadmin@lucas.co/\n\ngithub.com/lsgalante",
-		images: []
-	}
-}
-
-window.addEventListener("resize", function() {
-	sizing() });
-
-let n_tabs = Object.keys(tab_data).length;
+let n_tabs = Object.keys(data.tabs).length;
 let active_tab = 0;
 
 const bg_on = "#3f3131";
-const txt_on = "#ffffff";
-
 const bg_off = "#ffffff";
+
+const txt_on = "#ffffff";
 const txt_off = "#000000";
 
 let tabs = [];
 let counts = [0, 0, 0, 0];
 
+let w_start = 0;
+
+loadPage();
+
 function loadPage() {
+	window.addEventListener("resize", function() {
+		sizing() });
+		
 	create_tabs();
 	set_tab(0);
 }
@@ -90,7 +60,7 @@ function create_tabs() {
 
 		let pos = tab.pos;
 
-		let title = tab_data[tab.id].title;
+		let title = data.tabs[tab.id].title;
 	
 		if(pos == 1 || pos == 3) {
 			let new_title = "";
@@ -128,7 +98,7 @@ function set_tab(idx) {
 	let tab_id = "tab_" + idx;
 	const description = document.getElementById("description");
 	
-	(description.innerText = tab_data[tab_id]["body"])
+	(description.innerText = data.tabs[tab_id]["body"])
 
 	sizing();
 }
@@ -155,7 +125,7 @@ function images(i) {
 	}
 
 	let box = document.getElementById("box");
-	let urls = tab_data["tab_" + i].images;
+	let urls = data.tabs["tab_" + i].image;
 	let n = 0;
 	for(let url of urls) {
 		let image = document.createElement("img");
@@ -170,110 +140,114 @@ function sizing() {
 	let window_w = window.innerWidth;
 	let window_h = window.innerHeight;
 
-	let font_size = window_h * 0.014;
+	if(window_w != w_start) {
+		w_start = window_w;
 
-	// box
-	let box = document.getElementById("box");
-	
-	let box_w = window_w * 0.6;
-	let box_h = window_h * 0.5;
-	
-	let box_left = window_w / 2 - box_w / 2;
-	let box_top = window_h / 2 - box_h / 2;
-	
-	box.style.width = box_w + "px";
-	box.style.height = box_h + "px";
-	
-	box.style.left = box_left + "px";
-	box.style.top = box_top + "px";
+		let font_size = window_h * 0.014;
 
-	box.style.fontSize = font_size + "px";
-	
-	// image
-	let images = document.getElementsByTagName("img");
-	let n_images = images.length;
-	console.log(n_images);
-	
-	let img_w = box_w * 0.4;
-	let img_h = box_h * 0.4;
+		// box
+		let box = document.getElementById("box");
+		
+		let box_w = window_w * 0.6;
+		let box_h = window_h * 0.5;
+		
+		let box_left = window_w / 2 - box_w / 2;
+		let box_top = window_h / 2 - box_h / 2;
+		
+		box.style.width = box_w + "px";
+		box.style.height = box_h + "px";
+		
+		box.style.left = box_left + "px";
+		box.style.top = box_top + "px";
 
-	for(img of images) {		
-		img.style.width = img_w + "px";
-		img.style.height = img_h + "px";
+		box.style.fontSize = font_size + "px";
+		
+		// image
+		let images = document.getElementsByTagName("img");
+		let n_images = images.length;
+		
+		let img_w = box_w * 0.4;
+		let img_h = box_h * 0.4;
 
-		img.style.left = 20 + "px";
-		img.style.top = (img_h - 20) + "px";
+		for(img of images) {		
+			img.style.width = img_w + "px";
+			img.style.height = img_h + "px";
+
+			img.style.left = 20 + "px";
+			img.style.top = (img_h - 20) + "px";
+		}
+
+		// tab
+		let tab_w;
+		let tab_h;
+		
+		let dim_1 = window_h * 0.03;
+		
+		const border_radius = 45;
+
+		for(let i = 0; i < n_tabs; i++) {
+			let tab = tabs[i];
+			let pos = tab.pos;
+			let idx = tab.idx;
+			let count = counts[pos];
+
+			tab.style.fontSize = font_size + "px";
+
+			if(pos == 0) {
+				tab_w = box_w / count;
+				tab_h = dim_1;
+
+				tab.style.left = box_left + "px";
+				tab.style.top = (box_top - tab_h) + "px";
+
+				tab.style.borderTopLeftRadius = border_radius + "px";
+				tab.style.borderTopRightRadius = border_radius + "px";
+			}
+
+			if(pos == 1) {
+				tab_w = dim_1;
+				tab_h = box_h / count;
+
+				tab.style.left = (box_left + box_w - tab_w / 2 + tab_w / 2) + "px";
+				tab.style.top = (box_top + tab_h / 2 - tab_h / 2 + tab_h * idx) + "px";
+
+				tab.style.borderTopRightRadius = border_radius + "px";
+				tab.style.borderBottomRightRadius = border_radius + "px";
+
+				tab.style.lineHeight = font_size + "px";
+			}
+
+			if(pos == 2) {
+				tab_w = box_w / count
+				tab_h = dim_1;
+				
+				tab.style.top = (box_top + box_h) + "px";
+				tab.style.left = (box_left + tab_w * idx) + "px";
+				
+				tab.style.borderBottomRightRadius = border_radius + "px";
+				tab.style.borderBottomLeftRadius = border_radius + "px";
+			}
+
+			if(pos == 3) {
+				tab_w = dim_1;
+				tab_h = box_h / count;
+
+				tab.style.top = (box_top + tab_h / 2 - tab_h / 2 + tab_h * idx) + "px";
+				tab.style.left = (box_left - tab_w / 2 - tab_w / 2) + "px";
+				
+				tab.style.borderBottomLeftRadius = border_radius + "px";
+				tab.style.borderTopLeftRadius = border_radius + "px";
+
+				tab.style.lineHeight = font_size + "px";
+			}
+
+			tab.style.width = tab_w + "px";
+			tab.style.height = tab_h + "px";
+		}
+
+		// files
+		let files_box = document.getElementById("files");
+		files_box.style.fontSize = font_size + "px";
 	}
 
-	// tab
-	let tab_w;
-	let tab_h;
-	
-	let dim_1 = window_h * 0.03;
-	
-	const border_radius = 45;
-
-	for(let i = 0; i < n_tabs; i++) {
-		let tab = tabs[i];
-		let pos = tab.pos;
-		let idx = tab.idx;
-		let count = counts[pos];
-
-		tab.style.fontSize = font_size + "px";
-
-		if(pos == 0) {
-			tab_w = box_w / count;
-			tab_h = dim_1;
-
-			tab.style.left = box_left + "px";
-			tab.style.top = (box_top - tab_h) + "px";
-
-			tab.style.borderTopLeftRadius = border_radius + "px";
-			tab.style.borderTopRightRadius = border_radius + "px";
-		}
-
-		if(pos == 1) {
-			tab_w = dim_1;
-			tab_h = box_h / count;
-
-			tab.style.left = (box_left + box_w - tab_w / 2 + tab_w / 2) + "px";
-			tab.style.top = (box_top + tab_h / 2 - tab_h / 2 + tab_h * idx) + "px";
-
-			tab.style.borderTopRightRadius = border_radius + "px";
-			tab.style.borderBottomRightRadius = border_radius + "px";
-
-			tab.style.lineHeight = font_size + "px";
-		}
-
-		if(pos == 2) {
-			tab_w = box_w / count
-			tab_h = dim_1;
-			
-			tab.style.top = (box_top + box_h) + "px";
-			tab.style.left = (box_left + tab_w * idx) + "px";
-			
-			tab.style.borderBottomRightRadius = border_radius + "px";
-			tab.style.borderBottomLeftRadius = border_radius + "px";
-		}
-
-		if(pos == 3) {
-			tab_w = dim_1;
-			tab_h = box_h / count;
-
-			tab.style.top = (box_top + tab_h / 2 - tab_h / 2 + tab_h * idx) + "px";
-			tab.style.left = (box_left - tab_w / 2 - tab_w / 2) + "px";
-			
-			tab.style.borderBottomLeftRadius = border_radius + "px";
-			tab.style.borderTopLeftRadius = border_radius + "px";
-
-			tab.style.lineHeight = font_size + "px";
-		}
-
-		tab.style.width = tab_w + "px";
-		tab.style.height = tab_h + "px";
-	}
-
-	// files
-	let files_box = document.getElementById("files");
-	files_box.style.fontSize = font_size + "px";
 }
