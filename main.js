@@ -138,7 +138,6 @@ function images(i) {
 
 function check_h() {
 	let window_w = window.innerWidth;
-	let window_h = window.innerHeight;
 
 	if(window_w != w_start) {
 		w_start = window_w;
