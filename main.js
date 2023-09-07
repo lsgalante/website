@@ -1,7 +1,10 @@
-import data from "./info.json" assert { type: "json" };
+import { data }  from "./info.js";
+
 console.log(data);
 
 let n_tabs = Object.keys(data.tabs).length;
+
+console.log(n_tabs)
 let active_tab = 0;
 
 const bg_on = "#3f3131";
