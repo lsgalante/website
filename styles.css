@@ -1,3 +1,29 @@
+/* Main body styles */
+body {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+/* Global font settings */
 :root {
 	font-family: monospace;
 }
+
+/* Header styling */
+h1 {
+    color: #ffffff;
+    font-size: 1.2em;
+}
+
+/* Link styling */
+a {
+    color: #66b3ff;
+    text-decoration: none;
+}
+
+/* Link hover effect */
+a:hover {
+    color: #99ccff;
+    text-decoration: underline;
+}
+
