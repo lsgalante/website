@@ -1,0 +1,36 @@
+@font-face {
+    font-family: 'Terminus (TTF)';
+    src: url('TerminusTTF.woff2') format('woff2'),
+        url('TerminusTTF.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Terminus (TTF)';
+    src: url('TerminusTTF-Bold.woff2') format('woff2'),
+        url('TerminusTTF-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Terminus (TTF)';
+    src: url('TerminusTTF-Italic.woff2') format('woff2'),
+        url('TerminusTTF-Italic.woff') format('woff');
+    font-weight: 500;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Terminus (TTF)';
+    src: url('TerminusTTF-Bold-Italic.woff2') format('woff2'),
+        url('TerminusTTF-Bold-Italic.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+
