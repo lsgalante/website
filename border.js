@@ -1,5 +1,5 @@
 onStart();
-
+console.log("test");
 //
 //
 //
@@ -9,8 +9,18 @@ onStart();
     // }
 // })
 // resizeOberver.observe(document.documentElement);
-window.addEventListener("scroll", canvasClear);
-window.addEventListener("scroll", canvasInit);
+let lastHeight = window.innerHeight;
+window.addEventListener("scroll", function() {
+    console.log("test")
+    setTimeout(function() {
+        if (window.innerHeight != lastHeight) {
+            lastHeight = window.innerHeight;
+            console.log("test");
+            canvasClear();
+            canvasInit();
+        }
+    }, 100);
+})
 
 function onStart() {
     const canvas = document.createElement("canvas");
@@ -40,6 +50,7 @@ function canvasClear() {
 }
 
 function canvasInit() {
+    console.log("test");
     const canvas = document.getElementById("borderCanvas");
 
     // set size in css pixels
