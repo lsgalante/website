@@ -3,6 +3,14 @@ onStart();
 //
 //
 //
+// const resizeObserver = new ResizeObserver(entries => {
+    // for (let entry of entries) {
+        // console.log(entry);
+    // }
+// })
+// resizeOberver.observe(document.documentElement);
+window.addEventListener("scroll", canvasClear);
+window.addEventListener("scroll", canvasInit);
 
 function onStart() {
     const canvas = document.createElement("canvas");
