@@ -1,125 +1,75 @@
-/* Main body styles */
-body {
-    background-color: #000000;
-    color: #ffffff;
-    font-size: 16px; /* base size */
-}
-
-@font-face {
-    font-family: "Terminus";
-    src: url("./font/TerminusTTF.woff2") format("woff2"),
-         url("./font/TerminusTTF.woff") format("woff");
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: "Geist";
-    src: url("./font/Geist-Regular.woff2") format("woff2");
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: "GeistMono";
-    src: url("./font/GeistMono-Regular.woff2") format("woff2");
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: "CourierPrime";
-    src: url("./font/CourierPrime-Rndexegular.woff2") format("woff2");
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: "Lekton";
-    src: url("./font/Lekton-Regular.woff2") format("woff2");
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: "Inconsolata";
-    src: url("./font/Inconsolata-Regular.woff2") format("woff2");
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: "DraftingMono";
-    src: url("./font/DraftingMono-Regular.woff2") format("woff2");
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: "BPmono";
-    src: url("./font/BPmono.woff2") format("woff2");
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: "0xProto";
-    src: url("./font/0xProto-regular.woff2") format("woff2");
-    font-weight: normal;
-    font-style: normal;
-}
-
-/* Global font settings */
 :root {
-	/* font-family: monospace; */
-    font-family: "Lekton";
+	/* Add backup font */
+    font-family: "Circe";
+    font-weight: normal;
+    font-size: 1.05em;
 }
 
-
-/* Header styling */
-h1 {
-    color: #ffffff;
-    font-size: 1.2em;
-    /* font-weight: 800; */
+@font-face {
+    font-family: "Circe";
+    src: url("./font/CirceSlabA-Light.woff2") format("woff2");
 }
 
-/* Link styling */
 a {
     color: #66b3ff;
     text-decoration: none;
 }
 
-/* Link hover effect */
 a:hover {
     color: #99ccff;
     text-decoration: underline;
 }
 
-/* .your-style { */
-    /* font-family: 'Terminus (TTF)'; */
-    /* font-weight: 500; */
-    /* font-style: normal; */
-/* } */
-.background-rectangle {
-    position: absolute;
-    left: 2.5%;
-    top: 2.5%;
-    border-color: #404040;
-    border-width: 2px;
-    border-style: solid;
-    width: 95%;
-    height: 95%;
+body {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+img {
+    border: 1px solid #606060;
+    padding: 0.5em;
+    max-width: 600px;
+}
+
+pre {
+    display: inline;
+    font-family: "Circe";
+}
+
+video {
+    border: 1px solid #606060;
+    padding: 0.5em;
+    max-width: 600px;
+    height: auto;
 }
 
 .content-container {
     position: absolute;
-    top: 5%;
-    left: 5%;
-    width: 90%;
+    top: 3.5em;
+    left: 4em;
+    width: calc(100% - 8em);
     height: 90%;
 }
 
-/* Video box */
+.flex-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer {
+    bottom: 0em;
+    height: 2em;
+}
+
+.image-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    /* margin-left: 2em; */
+    margin: 0 auto;
+}
+
 .responsive-video {
     aspect-ratio: 16/9;
     width: 100%;
