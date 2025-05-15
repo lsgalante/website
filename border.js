@@ -40,7 +40,7 @@ window.addEventListener("resize", function() {
         // console.log(newH);
         // if (newH != lastH) {
             // lastH = newH;
-    2canvasUpdate();
+    canvasUpdate();
     // }, 100)
 })
 
